@@ -1,2 +1,2 @@
-# ia_spidervsdeadpool
-Desenvolvimento de uma aplicação capaz de utilizar Redes Neurais para classificar imagens do homem aranha e do deadpool
+# ia_dogvswolf
+Desenvolvimento de uma aplicação capaz de utilizar Redes Neurais para classificar imagens de um cachorro e lobos
