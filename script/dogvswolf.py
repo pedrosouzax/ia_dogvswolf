@@ -48,4 +48,19 @@ for images,labels in train_data.take(1):
         plt.title(class_name[labels[i]])
         plt.axis("off")
 
+# Configuring the dataset performance
+
+'''
+dataset.cache() mantem na memória as imagens depois de carregadas na primeira época
+dataset.prefetch() cria um dataset com uma prebusca, preparando os dados para o proximo processo 
+                    enquanto o processo atual está sendo executado
+
+AUTOTUNE altera o valor da quantidade de "dataset de pré-busca" dinamicamente enquando o programa esta rodando
+'''
+
+AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+train_data = train_data.cache().shuffle(300).prefetch(buffer_size=AUTOTUNE)
+test_data = test_data.cache().prefetch(buffer_size=AUTOTUNE)
+
 
