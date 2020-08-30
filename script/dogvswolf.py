@@ -63,11 +63,22 @@ AUTOTUNE = tf.data.experimental.AUTOTUNE
 train_data = train_data.cache().shuffle(300).prefetch(buffer_size=AUTOTUNE)
 test_data = test_data.cache().prefetch(buffer_size=AUTOTUNE)
 
+#Data Augmentation
+
+data_augmetation = keras.Sequential([layers.experimental.preprocessing.RandomFlip("horizontal",
+                                                                                input_shape=(img_height,
+                                                                                            img_width, 3)),
+                                    layers.experimental.preprocessing.RandomRotation(0.1),
+                                    layers.experimental.preprocessing.RandomZoom(0.1),
+                                    ])
+
+
 #Creating the model
 
 num_classes = 2
 
 model = Sequential([
+    data_augmetation,
     layers.experimental.preprocessing.Rescaling(1./255,input_shape=(img_height,img_width,3)),
     layers.Conv2D(16, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(pool_size=(2,2), strides=None,padding='valid'),
@@ -75,6 +86,7 @@ model = Sequential([
     layers.MaxPooling2D(pool_size=(2,2), strides=None,padding='valid'),
     layers.Conv2D(64, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(pool_size=(2,2), strides=None,padding='valid'),
+    layers.Dropout(0.2),
     layers.Flatten(),
     layers.Dense(128,activation='relu'),
     layers.Dense(num_classes)
